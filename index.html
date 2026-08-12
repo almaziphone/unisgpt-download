@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#081c25">
+  <title>UnisGPT — обновления</title>
+  <style>
+    :root{color-scheme:dark;--bg:#061820;--card:#0d2731;--line:#28505e;--text:#f5fbfd;--muted:#9db5bd;--accent:#39d6c2}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:28px;background:radial-gradient(circle at 20% 20%,#173d49,transparent 38%),var(--bg);font-family:system-ui,-apple-system,sans-serif;color:var(--text)}
+    main{width:min(820px,100%);padding:44px;border:1px solid var(--line);border-radius:34px;background:rgba(13,39,49,.92);box-shadow:0 28px 80px #0008}
+    .badge{display:inline-block;padding:7px 12px;border-radius:999px;background:#163f49;color:var(--accent);font-weight:700}h1{font-size:clamp(42px,8vw,76px);margin:18px 0 8px;letter-spacing:-.05em}p{font-size:19px;line-height:1.55;color:var(--muted)}
+    .actions{display:flex;gap:14px;flex-wrap:wrap;margin:30px 0}a.button{padding:16px 24px;border-radius:18px;background:var(--accent);color:#03201d;text-decoration:none;font-size:18px;font-weight:800}a.secondary{background:#173943;color:var(--text);border:1px solid var(--line)}
+    .status{padding:20px;border-radius:20px;background:#071b23;border:1px solid #1d414e}.status strong{color:var(--accent)}code{word-break:break-all;color:#cceae7}small{color:#78949e}
+  </style>
+</head>
+<body>
+<main>
+  <span class="badge">Changan · Android 9+</span>
+  <h1>UnisGPT</h1>
+  <p>Публичная страница загрузки обновлений автомобильного голосового помощника и музыкального плеера.</p>
+  <div class="actions">
+    <a class="button" id="download" href="https://github.com/almaziphone/unisgpt-download/releases/latest">Скачать последнюю версию</a>
+    <a class="button secondary" href="https://github.com/almaziphone/unisgpt-download/releases">Все версии</a>
+  </div>
+  <div class="status" id="status">Проверяю последний выпуск…</div>
+  <p><small>APK публикуется без встроенных API-ключей. Перед установкой UnisGPT проверяет SHA‑256. Android также проверяет подпись обновления.</small></p>
+</main>
+<script>
+fetch('https://api.github.com/repos/almaziphone/unisgpt-download/releases/latest').then(r=>r.json()).then(r=>{
+  const apk=(r.assets||[]).find(a=>/\.apk$/i.test(a.name));
+  document.getElementById('status').innerHTML='<strong>'+r.tag_name+'</strong><br>'+((r.body||'Последняя стабильная сборка.').replace(/</g,'&lt;'));
+  if(apk) document.getElementById('download').href=apk.browser_download_url;
+}).catch(()=>document.getElementById('status').textContent='Откройте список версий для загрузки APK.');
+</script>
+</body>
+</html>
